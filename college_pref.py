@@ -27,7 +27,9 @@ if pop_pref not in pop_size_list:
 else:
     break
 
+matches = []
+                 
 x = colleges.get(pop_pref)
 
-print(x)
+matches.append(x)
 
