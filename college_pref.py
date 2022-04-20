@@ -25,13 +25,13 @@ def load_data():
             
 # collect preferences from user
 
-size_pref = input('Do you prefer a small, medium or large school population?").lower
+size_pref = input('Do you prefer a small, medium or large school population?').lower
 size_list = ['small', 'medium', 'large']
 
 if size_pref not in size_list:
     print('Size must be small, medium or large')
 else:
-    break
+    pass
 
 
                  
