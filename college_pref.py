@@ -1,12 +1,31 @@
+
+# from code import interact
+
 import csv
 
-import statistics
+# import statistics
+
+from collections import Counter
 
 colleges = {}
 
-print('Welcome to the COLLEGE MATCHMAKER \nGet ready to get matched! \U0001F60E')
+print('Welcome to the COLLEGE MATCHMAKER \n Get ready to get matched! \U0001F60E')
 
 print('Loading colleges...')
+
+def convert_to_size(population):
+    population = int(population)
+    if population > 10000:
+        return "large"
+    elif population < 4000:
+        return "small"
+    else:
+        return "medium"
+
+def round_total_cost(cost):
+    cost = int(cost/1000)
+    n = round(cost, 0) * 1000
+    return n
 
 def load_data():
     """
@@ -14,26 +33,54 @@ def load_data():
     """
 
     # Load college stats
-    with open(f"College_Data.csv", encoding="utf-8") as f:
+    with open("ForbesAmericasTopColleges2019 2.csv", encoding="utf-8") as f:
         reader = csv.DictReader(f)
         for row in reader:
-            # name = int(row["College Name"])
+            # name = row["Name"]
             colleges[id] = {
-                "F.undergrad": row["F.Undergrad"],
-                "S.F.Ratio": row["S.F.Ratio"],
+                "Public/Private": row["Public/Private"],
+                "SAT": row["SAT Lower"],
+                "Cost": row["Total Annual Cost"],
+                "Size": convert_to_size(row["Undergraduate Population"])
             }
             
+
+print(colleges)
 # collect preferences from user
 
-size_pref = input('Do you prefer a small, medium or large school population?' ).lower
-size_list = ['small', 'medium', 'large']
+while True:
+    size_pref = input('Do you prefer a small, medium or large school population?').lower()
+    size_list = ['small', 'medium', 'large']
 
-if size_pref not in size_list:
-    print('Size must be small, medium or large')
-else:
-    pass
+    if size_pref not in size_list:
+        print('Size must be small, medium or large. Try again...')
+    else:
+        break
 
 
+while True:
+    pub_pref = input('Do you prefer a public or private institution?').lower()
+    pub_list = ['public', 'private']
+
+    if pub_pref not in pub_list:
+        print('Your choices are public or private. Try again...')
+    else:
+        break
+
+
+while True:
+    try:
+        SAT_score = int(input('What is your SAT score'))
+    except ValueError:
+        print('SAT score must be a number. Try again...')
+    break
+
+while True:
+    try:
+        cost_pref = int(input('How much are you willing to pay for your tuition?'))
+    except ValueError:
+        print('Tuition must be a whole number. Do not include currency signs. Try again...')
+    break
                  
 # TEST CODE (small dictionary)                
 # print("Get ready to get matched \U0001F60E")
@@ -59,41 +106,66 @@ def get_key(val):
 size_match = get_key(size_pref)
 
 matches.append(size_match)
+
+pub_match = get_key(pub_pref)
+
+matches.append(pub_match)
+
+# finding cost preferences
+
+def closestprice():
+    for key, value in colleges.items():
+        if cost_pref != value:
+            cost_pref -= 1000
+        else:
+            return key
+            
+cost_match = get_key(cost_pref)
+
+matches.append(cost_match)
+
+SAT_match = get_key(SAT_score)
+
+matches.append(SAT_match)
                  
 # tally up the number of times a college is in the match list                 
-top_match = statistics.mode(matches)
+# top_match = statistics.mode(matches)
 
-topmatches = []
-
-topmatches.insert(top_match)
-
-# this method won't work because pop/remove removes from a certain spot in the index so have to figure out how to move the item to top/bottom of list
-matches.remove(top_match)
+# matches.pop(top_match)
                   
-second_top_match = statistics.mode(matches)
+# second_top_match = statistics.mode(matches)
                   
-matches.pop(second_top_match)
+# matches.pop(second_top_match)
 
-third_top_match = statistics.mode(matches)
+# third_top_match = statistics.mode(matches)
                   
-print(f' According to our analysis, your top match is {top_match.upper}!!')
+total_counts = Counter()
+for school in matches:
+    total_counts[school] += 1
 
-see_second = input('Do you wish to see your next match? ')
+top_matches = total_counts.most_common(3)
 
-if see_second == 'yes':
-    print(f' Your second top match is {second_top_match.upper}!')
-elif see_second == 'no':
-    print('You\'re all done!')
-else:
-    print('Sorry, we didn\'t understand your response. Please respond with yes or no.')
-          
-          
-see_third = input('Do you wish to see your next match? ')
+print(f' According to our analysis, your top match is {top_matches[0]}!!')
 
-if see_third == 'yes':
-    print(f' Your third top match is {third_top_match.upper}!')
-elif see_third == 'no':
-    print('You\'re all done!')
-else:
-    print('Sorry, we didn\'t understand your response. Please respond with yes or no.')
-    
+while True:
+    see_second = input('Do you wish to see your next match? ')
+
+    if see_second == 'yes':
+        print(f' Your second top match is {top_matches[1]}!')
+        see_third = input('Do you wish to see your next match? ')
+
+        while True:
+
+            if see_third == 'yes':
+                print(f' Your third top match is {top_matches[2]}!')
+            elif see_third == 'no':
+                print('You\'re all done!')
+            else:
+                print('Sorry, we didn\'t understand your response. Please respond with yes or no.')
+            break
+            
+    elif see_second == 'no':
+        print('You\'re all done!')
+    else:
+        print('Sorry, we didn\'t understand your response. Please respond with yes or no.')
+    break
