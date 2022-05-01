@@ -49,7 +49,7 @@ print(colleges)
 # collect preferences from user
 
 while True:
-    size_pref = input('Do you prefer a small, medium or large school population?').lower()
+    size_pref = input('Do you prefer a small, medium or large school population? ').lower()
     size_list = ['small', 'medium', 'large']
 
     if size_pref not in size_list:
@@ -59,7 +59,7 @@ while True:
 
 
 while True:
-    pub_pref = input('Do you prefer a public or private institution?').lower()
+    pub_pref = input('Do you prefer a public or private institution? ').lower()
     pub_list = ['public', 'private']
 
     if pub_pref not in pub_list:
@@ -70,14 +70,14 @@ while True:
 
 while True:
     try:
-        SAT_score = int(input('What is your SAT score'))
+        SAT_score = int(input('What is your SAT score? '))
     except ValueError:
         print('SAT score must be a number. Try again...')
     break
 
 while True:
     try:
-        cost_pref = int(input('How much are you willing to pay for your tuition?'))
+        cost_pref = int(input('What is the most that you are willing to pay for your tuition? '))
     except ValueError:
         print('Tuition must be a whole number. Do not include currency signs. Try again...')
     break
@@ -101,7 +101,7 @@ def get_key(val):
          if val == value:
              return key
  
-    return "key doesn't exist"
+    return "not found"
     
 size_match = get_key(size_pref)
 
@@ -113,18 +113,32 @@ matches.append(pub_match)
 
 # finding cost preferences
 
-def closestprice():
+# function doesn't work!!!
+def closest_price(cost_pref):
     for key, value in colleges.items():
-        if cost_pref != value:
-            cost_pref -= 1000
-        else:
+        num_iterations = 0
+        if cost_pref == value:
             return key
-            
-cost_match = get_key(cost_pref)
+        else:
+            while cost_pref != value:
+                num_iterations +=1
+                cost_pref -= 1000*(num_iterations+1)
+                if cost_pref == value:
+                    break
+    return('not found')
+
+cost_match = closest_price(cost_pref)
 
 matches.append(cost_match)
 
-SAT_match = get_key(SAT_score)
+# finding SAT matches
+def closest_score(SAT_score):
+    for key, value in colleges.items():
+        if SAT_score == value or SAT_score > value:
+            return key
+    return('not found')
+
+SAT_match = closest_score(SAT_score)
 
 matches.append(SAT_match)
                  
