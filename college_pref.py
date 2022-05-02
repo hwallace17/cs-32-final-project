@@ -45,7 +45,7 @@ def load_data():
             }
             
 
-print(colleges)
+# print(colleges)
 # collect preferences from user
 
 while True:
@@ -70,14 +70,24 @@ while True:
 
 while True:
     try:
-        SAT_score = int(input('What is your SAT score? '))
+        while True:
+            SAT_score = int(input('What is your SAT score? '))
+            if SAT_score > 1600 or SAT_score < 400:
+                print('Please enter a valid score between 400 and 1600.')
+            else:
+                break
     except ValueError:
         print('SAT score must be a number. Try again...')
     break
 
 while True:
     try:
-        cost_pref = int(input('What is the most that you are willing to pay for your tuition? '))
+        while True:
+            cost_pref = int(input('What is the most that you are willing to pay for your tuition? '))
+            if cost_pref < 50000:
+                print('The minimum tuition cost on no financial aid is $50,000. Pleas try again.')
+            else:
+                break
     except ValueError:
         print('Tuition must be a whole number. Do not include currency signs. Try again...')
     break
@@ -92,6 +102,7 @@ while True:
 key_list = list(colleges.keys())
 val_list = list(colleges.values())
 
+print(key_list)
 
 matches = []
 
@@ -153,6 +164,9 @@ matches.append(SAT_match)
 
 # third_top_match = statistics.mode(matches)
                   
+
+# matches = ['rice', 'harvard', 'stanford', 'rice', 'stanford', 'rice', 'ucla', 'yale']
+
 total_counts = Counter()
 for school in matches:
     total_counts[school] += 1
