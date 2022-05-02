@@ -68,39 +68,50 @@ def load_data():
 
 
 
-# function to return key for any value
-def get_key(val):
-    for key, value in colleges.items():
-         if val == value:
-             return key
-         else:
-            return "not found"
+# # function to return key for any value
+# def get_key(val):
+#     for key, value in colleges.items():
+#          if val == value:
+#              return key
+#          else:
+#             return "not found"
     
+# finding size preferences
+
+def ideal_size(size_pref):
+    sizes_list = []
+    for key, value in colleges.items():
+        if size_pref == value:
+            sizes_list.append(key)
+    return sizes_list
+
+# finding public vs private preferences
+
+def ideal_type(pub_pref):
+    pub_list = []
+    for key, value in colleges.items():
+        if pub_pref == value:
+            pub_list.append(key)
+    return pub_list
 
 # finding cost preferences
 
-# function doesn't work!!!
 def closest_price(cost_pref):
+    price_list = []
     for key, value in colleges.items():
-        num_iterations = 0
-        if cost_pref == value:
-            return key
-        else:
-            while cost_pref != value:
-                num_iterations +=1
-                cost_pref -= 1000*(num_iterations+1)
-                if cost_pref == value:
-                    break
-    return('not found')
-
+        if cost_pref >= value:
+            price_list.append(key)
+    return price_list
 
 
 # finding SAT matches
 def closest_score(SAT_score):
+    sat_list = []
     for key, value in colleges.items():
-        if SAT_score == value or SAT_score > value:
-            return key
-    return('not found')
+        if SAT_score >= value:
+            sat_list.append(key)
+            
+    return sat_list
 
 
 # tally up the number of times a college is in the match list                 
@@ -158,14 +169,14 @@ def main():
             print('Tuition must be a whole number. Do not include currency signs. Try again...')
         break
           
-    key_list = list(colleges.keys())
-    val_list = list(colleges.values())
+    # key_list = list(colleges.keys())
+    # val_list = list(colleges.values())
     matches = []
-    size_match = get_key(size_pref)
+    size_match = ideal_size(size_pref)
 
     matches.append(size_match)
 
-    pub_match = get_key(pub_pref)
+    pub_match = ideal_type(pub_pref)
 
     matches.append(pub_match)
 
@@ -175,6 +186,7 @@ def main():
     SAT_match = closest_score(SAT_score)
 
     matches.append(SAT_match)
+    
     total_counts = Counter()
     for school in matches:
         total_counts[school] += 1
