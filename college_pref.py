@@ -44,11 +44,10 @@ def load_data():
 
 # collect preferences from user
 
-# finding size preferences
+# finding size preferences - creates pkl files to make the runtime faster upon multiple runs of the code so a list isn't made each time
 
 def ideal_size(size_pref):
 
-    # sizes_list = []
     small_colleges_list = []
     medium_colleges_list = []
     large_colleges_list = []
@@ -63,7 +62,7 @@ def ideal_size(size_pref):
                         loaded_list = pickle.load( open( "small_colleges.pkl", "rb" ) )
                         return loaded_list
                 
-                    #if not, 
+                    #if not, create a small pkl
                     else:
                         for college_name in colleges:
                             size = colleges[college_name]["Size"]
@@ -89,10 +88,10 @@ def ideal_size(size_pref):
             if size_pref == 'medium':
                 if size_pref == str(size):
                     if os.path.isfile("medium_colleges.pkl"):
-                        loaded_list = pickle.load( open( "medum_colleges.pkl", "rb" ) )
+                        loaded_list = pickle.load( open( "medium_colleges.pkl", "rb" ) )
                         return loaded_list
                 
-                    #if not, 
+                    #if not, create a medium pkl
                     else:
                         for college_name in colleges:
                             size = colleges[college_name]["Size"]
@@ -121,7 +120,7 @@ def ideal_size(size_pref):
                         loaded_list = pickle.load( open( "large_colleges.pkl", "rb" ) )
                         return loaded_list
                 
-                    #if not, 
+                    #if not, create a large pkl
                     else:
                         for college_name in colleges:
                             size = colleges[college_name]["Size"]
@@ -139,6 +138,7 @@ def ideal_size(size_pref):
                                     open_file.close()
                     return loaded_list
             
+# finding preferences for public vs private school — same technique as above
 
 def ideal_type(pub_pref):
 
@@ -152,12 +152,12 @@ def ideal_type(pub_pref):
     
         if pub_pref == 'public':
             if pub_pref == str(pub_pref):
-                #checks whether or not large pkl alr exists
+                #checks whether or not public pkl alr exists
                 if os.path.isfile("public_colleges.pkl"):
                     loaded_list = pickle.load( open( "public_colleges.pkl", "rb" ) )
                     return loaded_list
             
-                #if not, 
+                #if not, create a new public pkl
                 else:
                     for college_name in colleges:
                         pub_pref = colleges[college_name]["Public/Private"]
@@ -179,7 +179,7 @@ def ideal_type(pub_pref):
 
         if pub_pref == 'private':
             if pub_pref == str(pub_pref):
-                #checks whether or not large pkl alr exists
+                #checks whether or not private pkl alr exists
                 if os.path.isfile("private_colleges.pkl"):
                     loaded_list = pickle.load( open( "private_colleges.pkl", "rb" ) )
                     return loaded_list
@@ -202,8 +202,8 @@ def ideal_type(pub_pref):
                                 loaded_list = pickle.load(open_file)
                                 open_file.close()
                 return loaded_list
-     
-# finding cost preferences
+ 
+#  finding cost preferences
 
 def closest_price(cost_pref):
     
@@ -276,7 +276,11 @@ def main():
     while True:
         try:
             cost_pref = float(input('What is the most that you are willing to pay for your tuition? '))
-            break
+            if cost_pref>0:
+                break
+            else:
+                cost_pref == ValueError
+                print('You must be willing to pay something!')
         except ValueError:
             print('Tuition must be a whole number. Do not include currency signs. Try again...')
           
@@ -331,6 +335,7 @@ def main():
                     matches.remove(second_top_match)
                     third_top_match = statistics.mode(matches)
                     print(f' Your third top match is {third_top_match}! \n You\'re all done!')
+                    break
                 elif see_third == 'no':
                     print('You\'re all done!')
                     break
