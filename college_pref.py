@@ -275,7 +275,11 @@ def main():
     while True:
         try:
             cost_pref = float(input('What is the most that you are willing to pay for your tuition? '))
-            break
+            if cost_pref>0:
+                break
+            else:
+                cost_pref == ValueError
+                print('You must be willing to pay something!')
         except ValueError:
             print('Tuition must be a whole number. Do not include currency signs. Try again...')
           
