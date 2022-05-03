@@ -216,7 +216,6 @@ def main():
     matches.extend(cost_match)
     
     SAT_match = closest_score(SAT_score)
-    print(matches)
 
     # matches.append(SAT_match)
 
@@ -251,7 +250,7 @@ def main():
                 if see_third == 'yes':
                     matches.remove(second_top_match)
                     third_top_match = statistics.mode(matches)
-                    print(f' Your third top match is {third_top_match}!')
+                    print(f' Your third top match is {third_top_match}! \n You\'re all done!')
                 elif see_third == 'no':
                     print('You\'re all done!')
                 else:
