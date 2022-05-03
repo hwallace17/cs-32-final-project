@@ -48,6 +48,7 @@ def load_data():
 
 def ideal_size(size_pref):
 
+    # sizes_list = []
     small_colleges_list = []
     medium_colleges_list = []
     large_colleges_list = []
@@ -146,61 +147,61 @@ def ideal_type(pub_pref):
     
     for college_name in colleges:
         pub_pref = colleges[college_name]["Public/Private"]
-        for college_name in colleges:
-            pub_pref = colleges[college_name]["Public/Private"]
+        #for college_name in colleges:
+            #pub_pref = colleges[college_name]["Public/Private"]
     
-            if pub_pref == 'public':
-                if pub_pref == str(pub_pref):
-                    #checks whether or not large pkl alr exists
-                    if os.path.isfile("public_colleges.pkl"):
-                        loaded_list = pickle.load( open( "public_colleges.pkl", "rb" ) )
-                        return loaded_list
-                
-                    #if not, 
-                    else:
-                        for college_name in colleges:
-                            pub_pref = colleges[college_name]["Public/Private"]
-                    
-                            if pub_pref == 'public':
-                                if pub_pref == str(pub_pref):
-                                    public_colleges_list.append(college_name)
-                                    file_name = 'public_colleges.pkl'
-                                    open_file = open(file_name, "wb")
-                                    pickle.dump(public_colleges_list, open_file)
-                                    open_file.close()
-                    
-                                    open_file = open(file_name, "rb")
-                                    loaded_list = pickle.load(open_file)
-                                    open_file.close()
+        if pub_pref == 'public':
+            if pub_pref == str(pub_pref):
+                #checks whether or not large pkl alr exists
+                if os.path.isfile("public_colleges.pkl"):
+                    loaded_list = pickle.load( open( "public_colleges.pkl", "rb" ) )
                     return loaded_list
+            
+                #if not, 
+                else:
+                    for college_name in colleges:
+                        pub_pref = colleges[college_name]["Public/Private"]
+                
+                        if pub_pref == 'public':
+                            if pub_pref == str(pub_pref):
+                                public_colleges_list.append(college_name)
+                                file_name = 'public_colleges.pkl'
+                                open_file = open(file_name, "wb")
+                                pickle.dump(public_colleges_list, open_file)
+                                open_file.close()
+                
+                                open_file = open(file_name, "rb")
+                                loaded_list = pickle.load(open_file)
+                                open_file.close()
+                return loaded_list
 
-        for college_name in colleges:
-            pub_pref = colleges[college_name]["Public/Private"]
-    
-            if pub_pref == 'private':
-                if pub_pref == str(pub_pref):
-                    #checks whether or not large pkl alr exists
-                    if os.path.isfile("private_colleges.pkl"):
-                        loaded_list = pickle.load( open( "private_colleges.pkl", "rb" ) )
-                        return loaded_list
-                
-                    #if not, 
-                    else:
-                        for college_name in colleges:
-                            pub_pref = colleges[college_name]["Public/Private"]
-                    
-                            if pub_pref == 'private':
-                                if pub_pref == str(pub_pref):
-                                    private_colleges_list.append(college_name)
-                                    file_name = 'private_colleges.pkl'
-                                    open_file = open(file_name, "wb")
-                                    pickle.dump(private_colleges_list, open_file)
-                                    open_file.close()
-                    
-                                    open_file = open(file_name, "rb")
-                                    loaded_list = pickle.load(open_file)
-                                    open_file.close()
+   
+
+        if pub_pref == 'private':
+            if pub_pref == str(pub_pref):
+                #checks whether or not large pkl alr exists
+                if os.path.isfile("private_colleges.pkl"):
+                    loaded_list = pickle.load( open( "private_colleges.pkl", "rb" ) )
                     return loaded_list
+                
+                ###
+                #if not, create a new private school pickle
+                else:
+                    for college_name in colleges:
+                        pub_pref = colleges[college_name]["Public/Private"]
+                
+                        if pub_pref == 'private':
+                            if pub_pref == str(pub_pref):
+                                private_colleges_list.append(college_name)
+                                file_name = 'private_colleges.pkl'
+                                open_file = open(file_name, "wb")
+                                pickle.dump(private_colleges_list, open_file)
+                                open_file.close()
+                
+                                open_file = open(file_name, "rb")
+                                loaded_list = pickle.load(open_file)
+                                open_file.close()
+                return loaded_list
      
 # finding cost preferences
 
@@ -275,11 +276,7 @@ def main():
     while True:
         try:
             cost_pref = float(input('What is the most that you are willing to pay for your tuition? '))
-            if cost_pref>0:
-                break
-            else:
-                cost_pref == ValueError
-                print('You must be willing to pay something!')
+            break
         except ValueError:
             print('Tuition must be a whole number. Do not include currency signs. Try again...')
           
@@ -334,7 +331,6 @@ def main():
                     matches.remove(second_top_match)
                     third_top_match = statistics.mode(matches)
                     print(f' Your third top match is {third_top_match}! \n You\'re all done!')
-                    break
                 elif see_third == 'no':
                     print('You\'re all done!')
                     break
