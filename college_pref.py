@@ -105,6 +105,7 @@ def closest_price(cost_pref):
 
 
 # finding SAT matches
+
 def closest_score(SAT_score):
     sat_list = []
     for key, value in colleges.items():
