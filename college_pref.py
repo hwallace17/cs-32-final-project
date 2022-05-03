@@ -105,15 +105,13 @@ def closest_price(cost_pref):
 
 
 # finding SAT matches
-
-def closest_score(SAT_score):
-    sat_list = []
-    for key, value in colleges.items():
-        if SAT_score >= value:
-            sat_list.append(key)
-            
-    return sat_list
-
+def closest_score(score_pref):
+    SAT_scores = []
+    for college_name in colleges:
+        SAT_score=colleges[college_name]["SAT"]
+        if score_pref >= float(SAT_score):
+            SAT_scores.append(college_name)
+    return SAT_scores
 
 # tally up the number of times a college is in the match list                 
 # top_match = statistics.mode(matches)
